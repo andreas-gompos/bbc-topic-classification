@@ -33,7 +33,7 @@ hptuning:
       values: [128, 256]
 
 build:
-  image: python:3.6.8
+  image: tensorflow/tensorflow:latest-gpu-py3 #python:3.6.8
   build_steps:
     - pip install polyaxon-client
     - pip install -r requirements.txt
