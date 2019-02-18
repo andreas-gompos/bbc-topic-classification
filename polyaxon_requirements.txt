@@ -1,7 +1,0 @@
-numpy
-pandas
-scikit-learn
-tensorflow-gpu
-nltk
-polyaxon-cli
-google-cloud-storage

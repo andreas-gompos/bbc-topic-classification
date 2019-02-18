@@ -13,4 +13,4 @@ build:
 
 run:
   cmd:
-  - ./get_data.sh
+  - cd data && ./get_data.sh

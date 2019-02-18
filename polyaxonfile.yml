@@ -13,6 +13,9 @@ environment:
     memory:
       requests: 1000
       limits: 7000
+    gpu:
+      requests: 1
+      limits: 1
 
 hptuning:
   concurrency: 20
