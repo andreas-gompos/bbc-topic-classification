@@ -2,15 +2,9 @@
 version: 1
 kind: job
 
-environment:
-  persistence:
-    data: ['data-local']
-
 build:
   image: python:3.6.8
-  build_steps:
-    - pip install polyaxon-client
 
 run:
   cmd:
-  - cd data && ./get_data.sh
+  - ./get_data.sh
