@@ -1,0 +1,44 @@
+---
+version: 1
+kind: group
+
+environment:
+  persistence:
+    outputs: 'outputs-gcs'
+    data: ['data-local']
+  resources:
+    cpu:
+      requests: 1
+      limits: 1
+    memory:
+      requests: 1000
+      limits: 7000
+
+hptuning:
+  concurrency: 20
+  random_search:
+    n_experiments: 1
+
+  matrix:
+    num_epochs:
+      values: [20, 25, 30, 35, 40, 45, 50]
+    top_words:
+      values: [15000, 20000, 25000, 30000, 35000, 40000]
+    max_sequence_length:
+      values: [100, 200, 300, 400, 500, 600, 700, 800]
+    batch_size:
+      values: [128, 256]
+
+build:
+  image: python:3.6.8
+  build_steps:
+    - pip install polyaxon-client
+    - pip install -r requirements.txt
+    - python -m nltk.downloader stopwords punkt wordnet
+
+run:
+  cmd:
+  - python train.py --num_epochs={{ num_epochs }}
+                    --top_words={{ top_words }}
+                    --max_sequence_length={{ max_sequence_length }}
+                    --batch_size={{ batch_size }}
