@@ -3,5 +3,5 @@ pandas
 scikit-learn
 tensorflow-gpu
 nltk
-polyaxon-cli
+polyaxon-cli==0.3.8
 google-cloud-storage
