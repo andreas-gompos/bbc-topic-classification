@@ -30,18 +30,22 @@ hptuning:
     max_sequence_length:
       values: [100, 200, 300, 400, 500, 600, 700, 800]
     batch_size:
-      values: [128, 256]
+      values: [256]
+
+declarations:
+  polyaxon_env: 1
 
 build:
-  image: tensorflow/tensorflow:latest-gpu-py3 #python:3.6.8
+  image: tensorflow/tensorflow:latest-gpu-py3
   build_steps:
     - pip install polyaxon-client
-    - pip install -r requirements.txt
+    - pip install -r ./src/requirements.txt
     - python -m nltk.downloader stopwords punkt wordnet
 
 run:
   cmd:
-  - python train.py --num_epochs={{ num_epochs }}
-                    --top_words={{ top_words }}
-                    --max_sequence_length={{ max_sequence_length }}
-                    --batch_size={{ batch_size }}
+  - python ./src/train.py --num_epochs={{ num_epochs }}
+                          --top_words={{ top_words }}
+                          --max_sequence_length={{ max_sequence_length }}
+                          --batch_size={{ batch_size }}
+                          --polyaxon_env={{ polyaxon_env }}

@@ -3,8 +3,8 @@ version: 1
 kind: job
 
 build:
-  image: python:3.6.8
+  image: python:3.7.2
 
 run:
   cmd:
-  - ./get_data.sh
+  - ./src/get_data.sh
