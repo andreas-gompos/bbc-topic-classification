@@ -1,0 +1,16 @@
+{
+    "git.autofetch": true,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "editor.tabSize": 4,
+    "python.formatting.provider": "black",
+    "python.linting.enabled": true,
+    "python.linting.pep8Enabled": true,
+    "python.linting.pep8Args": ["--max-line-length=89" ],
+    "python.linting.pylintEnabled": true,
+    "python.linting.pydocstyleEnabled": true,
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": ["--max-line-length=89"],
+    "python.linting.pylintUseMinimalCheckers": false
+ }
