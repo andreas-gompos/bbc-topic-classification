@@ -5,11 +5,8 @@
 import argparse
 
 import numpy as np
-from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, LSTM, Dropout
-from tensorflow.keras.layers import Embedding
-from tensorflow.keras.layers import BatchNormalization
+from tensorflow.keras.layers import Dense, LSTM, Dropout, Embedding, BatchNormalization
 from sklearn.pipeline import Pipeline
 from sklearn.externals import joblib
 from sklearn.model_selection import train_test_split
@@ -72,7 +69,7 @@ def create_model(embedding_matrix, trainable_embedding=True):
     model.add(BatchNormalization())
     model.add(Dense(5, activation="softmax"))
     model.compile(
-        optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"]
+        optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"]
     )
     print(model.summary())
     return model
@@ -113,7 +110,7 @@ def main():
 
     train, test = train_test_split(data, test_size=0.25)
     X_train = preprocessing_pipeline.fit_transform(train.text)
-    y_train = to_categorical(train["class"])
+    y_train = train["class"].values
 
     embedding_matrix = create_embedding_matrix(glove_embeddings, preprocessing_pipeline)
     model = create_model(embedding_matrix)
@@ -123,7 +120,7 @@ def main():
     joblib.dump(preprocessing_pipeline, "preprocessing_pipeline.pkl")
 
     X_test = preprocessing_pipeline.transform(test.text)
-    y_test = to_categorical(test["class"])
+    y_test = test["class"].values
     metrics = model.evaluate(X_test, y_test)
 
     if polyaxon_env:
