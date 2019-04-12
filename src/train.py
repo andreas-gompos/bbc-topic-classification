@@ -119,7 +119,7 @@ def main():
     model = create_model(embedding_matrix)
     model.fit(X_train, y_train, epochs=num_epochs, batch_size=batch_size, shuffle=True)
 
-    model.save("model.h5'")
+    model.save("model.h5")
     joblib.dump(preprocessing_pipeline, "preprocessing_pipeline.pkl")
 
     X_test = preprocessing_pipeline.transform(test.text)
