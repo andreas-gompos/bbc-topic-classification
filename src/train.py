@@ -6,7 +6,13 @@ import argparse
 
 import numpy as np
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, LSTM, Dropout, Embedding, BatchNormalization
+from tensorflow.keras.layers import (
+    Dense,
+    LSTM,
+    Dropout,
+    Embedding,
+    BatchNormalization,
+)
 from sklearn.pipeline import Pipeline
 from sklearn.externals import joblib
 from sklearn.model_selection import train_test_split
@@ -36,7 +42,9 @@ def create_preprocessing_pipeline(top_words=20000, max_sequence_length=500):
 
 def create_embedding_matrix(glove_embeddings, preprocessing_pipeline):
 
-    word_index = preprocessing_pipeline.named_steps["encoder"].encoder_.word_index
+    word_index = preprocessing_pipeline.named_steps[
+        "encoder"
+    ].encoder_.word_index
     embedding_dim = len(glove_embeddings["yes"])  # =300
     embedding_matrix = np.zeros((len(word_index) + 1, embedding_dim))
     for word, i in word_index.items():
@@ -69,7 +77,9 @@ def create_model(embedding_matrix, trainable_embedding=True):
     model.add(BatchNormalization())
     model.add(Dense(5, activation="softmax"))
     model.compile(
-        optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"]
+        optimizer="adam",
+        loss="sparse_categorical_crossentropy",
+        metrics=["accuracy"],
     )
     print(model.summary())
     return model
@@ -99,7 +109,9 @@ def main():
 
     np.random.seed(7)
     bbc_data_dir = data_path + "/bbc-topic-classification/bbc_data/"
-    glove_embedding_dir = data_path + "/bbc-topic-classification/glove.6B.300d.txt"
+    glove_embedding_dir = (
+        data_path + "/bbc-topic-classification/glove.6B.300d.txt"
+    )
 
     data = load_dataset(bbc_data_dir)
     glove_embeddings = load_glove_embeddings(glove_embedding_dir)
@@ -112,9 +124,13 @@ def main():
     X_train = preprocessing_pipeline.fit_transform(train.text)
     y_train = train["class"].values
 
-    embedding_matrix = create_embedding_matrix(glove_embeddings, preprocessing_pipeline)
+    embedding_matrix = create_embedding_matrix(
+        glove_embeddings, preprocessing_pipeline
+    )
     model = create_model(embedding_matrix)
-    model.fit(X_train, y_train, epochs=num_epochs, batch_size=batch_size, shuffle=True)
+    model.fit(
+        X_train, y_train, epochs=num_epochs, batch_size=batch_size, shuffle=True
+    )
 
     model.save("model.h5")
     joblib.dump(preprocessing_pipeline, "preprocessing_pipeline.pkl")
