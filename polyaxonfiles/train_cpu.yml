@@ -4,8 +4,8 @@ kind: group
 
 environment:
   persistence:
-    outputs: 'outputs-gcs'
-    data: ['data-local']
+    outputs: "outputs-gcs"
+    data: ["data-local"]
   resources:
     cpu:
       requests: 4
@@ -15,9 +15,9 @@ environment:
       limits: 7000
 
 hptuning:
-  concurrency: 20
+  concurrency: 3
   random_search:
-    n_experiments: 1
+    n_experiments: 10
 
   matrix:
     num_epochs:
@@ -33,7 +33,7 @@ declarations:
   polyaxon_env: 1
 
 build:
-  image: python:3.7.2
+  image: python:3.7.4
   build_steps:
     - pip install polyaxon-client
     - pip install -r requirements.txt
@@ -41,8 +41,8 @@ build:
 
 run:
   cmd:
-  - python ./src/train.py --num_epochs={{ num_epochs }}
-                          --top_words={{ top_words }}
-                          --max_sequence_length={{ max_sequence_length }}
-                          --batch_size={{ batch_size }}
-                          --polyaxon_env={{ polyaxon_env }}
+    - python ./src/train.py --num_epochs={{ num_epochs }}
+      --top_words={{ top_words }}
+      --max_sequence_length={{ max_sequence_length }}
+      --batch_size={{ batch_size }}
+      --polyaxon_env={{ polyaxon_env }}
